@@ -17,12 +17,11 @@ fi
 bash -c "$(curl -4 -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 [ -f /usr/local/etc/xray/.keys ] && rm /usr/local/etc/xray/.keys
 touch /usr/local/etc/xray/.keys
-echo "shortsid: $(openssl rand -hex 8)" >> /usr/local/etc/xray/.keys
 echo "uuid: $(xray uuid)" >> /usr/local/etc/xray/.keys
 xray x25519 >> /usr/local/etc/xray/.keys
-
+echo "shortsid: $(openssl rand -hex 8)" >> /usr/local/etc/xray/.keys
 export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
-export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
+export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Private key/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
 # Создаем файл конфигурации Xray
@@ -45,7 +44,7 @@ cat << EOF > /usr/local/etc/xray/config.json
             {
                 "type": "field",
                 "ip": [
-                    "geoip:ru"
+                    "geoip:cn"
                 ],
                 "outboundTag": "block"
             }
@@ -196,7 +195,6 @@ chmod +x /usr/local/bin/newuser
 # Исполняемый файл для удаления клиентов
 touch /usr/local/bin/rmuser
 cat << 'EOF' > /usr/local/bin/rmuser
-#!/bin/bash
 emails=($(jq -r '.inbounds[0].settings.clients[].email' "/usr/local/etc/xray/config.json"))
 
 if [[ ${#emails[@]} -eq 0 ]]; then
