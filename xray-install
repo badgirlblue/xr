@@ -46,7 +46,7 @@ mkdir -p /usr/local/etc/xray
 echo "🔑 Генерация ключей REALITY..."
 rm -f /usr/local/etc/xray/.keys
 touch /usr/local/etc/xray/.keys
-chmod 600 /usr/local/etc/xray/.keys  # КРИТИЧЕСКИ ВАЖНО: защита приватного ключа
+#chmod 600 /usr/local/etc/xray/.keys  # КРИТИЧЕСКИ ВАЖНО: защита приватного ключа
 
 uuid=$(xray uuid)
 x25519_output=$(xray x25519)
